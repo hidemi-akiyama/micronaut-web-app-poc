@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  db:
+    &db_default
+    image: mysql:8.0
+    platform: linux/x86_64
+    container_name: poc-db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: db
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app
+      TZ: 'Asia/Tokyo'
+    ports:
+      - '13306:3306'
+    volumes:
+      - ./docker/db/conf.d/my.cnf:/usr/local/etc/my.cnf
+      - ./docker/db/init:/docker-entrypoint-initdb.d
+      - db-data:/usr/local/mysql
+    restart: always
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    cap_add:
+      - SYS_NICE
+  test_db:
+    <<: *db_default
+    container_name: poc-test-db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: test_db
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app
+      TZ: 'Asia/Tokyo'
+    ports:
+      - '23306:3306'
+  redis:
+    image: redis:7.0.0
+    container_name: poc-redis
+    ports:
+      - "6379:6379"
+volumes:
+  db-data:

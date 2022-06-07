@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    <link rel="stylesheet" th:href="@{public/css/bootstrap.css}" />
+    <script th:src="@{public/js/jquery.js}"></script>
+    <script th:src="@{public/js/bootstrap.js}"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Tenant Users</h1>
+    <h2>Add Tenant User</h2>
+    <form th:action="@{/tenant_users}" th:method="post">
+        <div class="form-inline">
+            <input class="form-control mb-2 mr-sm-2" type="text" name="name" placeholder="Name" />
+            <input class="form-control mb-2 mr-sm-2" type="text" name="email" placeholder="Email" />
+            <button class="btn btn-primary mb-2" type="submit">add</button>
+        </div>
+    </form>
+    <h2>List of Tenant Users</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tenantUser:*{content}" th:object="${pageable}">
+            <td th:text="${tenantUser.id}"></td>
+            <td th:text="${tenantUser.name}"></td>
+            <td th:text="${tenantUser.email}"></td>
+            <td><a class="btn btn-primary mb-2 btn-xs" th:href="@{/tenant_users/{id}(id=${tenantUser.id})}">show</a></td>
+            <td>
+                <form th:action="@{/tenant_users/{id}/delete(id=${tenantUser.id})}" th:method="post">
+                    <input class="btn btn-danger mb-2 btn-xs" type="submit" value="delete" />
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/">back to Home</a>
+</div>
+</body>
+</html>

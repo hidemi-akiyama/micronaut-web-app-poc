@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+    <link rel="stylesheet" th:href="@{../public/css/bootstrap.css}" />
+    <script th:src="@{../public/js/jquery.js}"></script>
+    <script th:src="@{../public/js/bootstrap.js}"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Tenant User Detail</h1>
+    <form th:action="@{/tenant_users/{id}/edit}" th:method="post">
+        <label class="control-label">ID: </label> <label th:text="${id}" />
+
+        <div class="form-group">
+            <input class="form-control mb-2 mr-sm-2" type="hidden" name="id" th:value="${id}" />
+            <label class="control-label">name: </label>
+            <input class="form-control mb-2 mr-sm-2" type="text" name="name" th:value="${name}" placeholder="Name" />
+            <label class="control-label">email: </label>
+            <input class="form-control mb-2 mr-sm-2" type="text" name="email" th:value="${email}" placeholder="Email" />
+            <button class="btn btn-primary mb-2" type="submit">update</button>
+        </div>
+    </form>
+
+    <a class="btn btn-link" href="/tenant_users">back to list</a>
+</div>
+</body>
+</html>

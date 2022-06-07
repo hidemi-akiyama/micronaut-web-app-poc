@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.example
+testFramework: kotest
+sourceLanguage: kotlin
+buildTool: gradle_kotlin
+features: [annotation-api, app-name, data, data-jpa, flyway, graalvm, gradle, http-client, jackson-databind, jdbc-hikari, kotest, kotlin, kotlin-application, kotlin-build, logback, management, micrometer, micrometer-datadog, micronaut-build, mysql, netty-server, openapi, readme, redis-lettuce, security-annotations, security-jwt, security-oauth2, shade, testcontainers, views-thymeleaf, yaml]

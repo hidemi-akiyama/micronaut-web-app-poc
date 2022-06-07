@@ -1,0 +1,114 @@
+micronaut:
+  application:
+    name: micronautWebAppPoc
+  http:
+    services:
+      githubv3:
+        url: "https://api.github.com"
+  router:
+    static-resources:
+      default:
+        enabled: true
+        mapping: "/public/**"
+        paths: "classpath:public"
+  security:
+    authentication: session
+    intercept-url-map:
+      - pattern: /public/**
+        httpMethod: GET
+        access:
+          - isAnonymous()
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: '"${JWT_GENERATOR_SIGNATURE_SECRET:pleaseChangeThisSecretForANewOne}"'
+    oauth2:
+      clients:
+        github:
+          client-id: ${OAUTH_CLIENT_ID:enterYourClientId}
+          client-secret: ${OAUTH_CLIENT_SECRET:enterYourClientSecret}
+          scope:
+            - user:email
+            - read:user
+            - public_repo
+          authorization:
+            url: 'https://github.com/login/oauth/authorize'
+          token:
+            url: 'https://github.com/login/oauth/access_token'
+            auth-method: CLIENT_SECRET_POST
+    endpoints:
+      logout:
+        get-allowed: true
+  session:
+    http:
+      redis:
+        enabled: true
+        namespace: 'poc:sessions:'
+        write-mode: BACKGROUND
+        enable-keyspace-events: false
+        valueSerializer: io.micronaut.jackson.serialize.JacksonObjectSerializer
+application:
+  max: 50
+netty:
+  default:
+    allocator:
+      max-order: 3
+datasources:
+  default:
+    url: ${JDBC_URL:`jdbc:mysql://localhost:13306/db`}
+    username: ${JDBC_USER:root}
+    password: ${JDBC_PASSWORD:password}
+    dialect: MYSQL
+    schema-generate: CREATE_DROP
+    driverClassName: ${JDBC_DRIVER:com.mysql.cj.jdbc.Driver}
+flyway:
+  datasources:
+    default:
+      enabled: true
+jpa:
+  default:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        show_sql: true
+    entity-scan:
+      packages: 'com.example.poc.domain'
+redis:
+  uri: 'redis://localhost'
+  io-thread-pool-size: 2
+  computation-thread-pool-size: 2
+endpoints:
+  all:
+    port: 8085
+  beans:
+    enabled: true
+    sensitive: false
+  info:
+    enabled: true
+    sensitive: false
+  health:
+    details-visible: ANONYMOUS
+    jdbc:
+      enabled: true
+    disk-space:
+      enabled: true
+      path: ./
+      threshold: 100MB
+  routes:
+    enabled: true
+    sensitive: false
+  env:
+    enabled: true
+    sensitive: false
+  threaddump:
+    enabled: true
+    sensitive: false
+  flyway:
+    enabled: true
+    sensitive: false
+  metrics:
+    enabled: true
+    sensitive: false

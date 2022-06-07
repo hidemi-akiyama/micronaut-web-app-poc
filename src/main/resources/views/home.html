@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" th:href="@{public/css/bootstrap.css}" />
+    <script th:src="@{public/js/jquery.js}"></script>
+    <script th:src="@{public/js/bootstrap.js}"></script>
+</head>
+<body>
+<h1>Micronaut - Web app POC</h1>
+
+<h2 th:if="${security}">username: <span th:text="${security.name}" /> </h2>
+<h2 th:unless="${security}">username: Anonymous</h2>
+
+<nav>
+    <ul>
+        <li th:unless="${security}"><a href="/oauth/login/github">Enter</a></li>
+        <li th:if="${security}"><a href="/repos">View Repos</a></li>
+        <li th:if="${security}"><a href="/tenant_users">View Tenant Users</a></li>
+        <li th:if="${security}"><a href="/logout">Logout</a></li>
+    </ul>
+</nav>
+
+Using GitHub OAuth For Authentication: ref <a href="https://guides.micronaut.io/latest/micronaut-oauth2-github-gradle-kotlin.html">here</a>
+</body>
+</html>

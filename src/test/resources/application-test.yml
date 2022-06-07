@@ -1,0 +1,11 @@
+datasources:
+## Using testcontainers in testing will generate temporary mysql instance, but it's slow...
+# default:
+#   url: jdbc:tc:mysql:8:///test_db
+#   driverClassName: org.testcontainers.jdbc.ContainerDatabaseDriver
+  default:
+    url: ${JDBC_URL:`jdbc:mysql://localhost:23306/test_db`}
+    username: ${JDBC_USER:root}
+    password: ${JDBC_PASSWORD:password}
+    dialect: MYSQL
+    driverClassName: ${JDBC_DRIVER:com.mysql.cj.jdbc.Driver}
